@@ -1,0 +1,33 @@
+.board {
+  display: grid;
+  grid-template-columns: repeat(13, 1fr);
+  grid-template-rows: repeat(13, 1fr);
+  gap: 0.5em; /* or some small space if needed */
+  width: 500px; /* Adjust to your liking */
+  height: 500px; /* Adjust to your liking */
+}
+
+.cell {
+  position: relative;
+}
+
+.piece {
+  background-color: #999; /* Placeholder for piece color */
+  border-radius: 50%;
+  width: 100%;
+  height: 100%;
+}
+
+.horizontal {
+  background-color: #000; /* Line color */
+  height: 0.5em;
+  margin-block: auto;
+}
+
+.vertical {
+  background-color: #000; /* Line color */
+  width: 0.5em;
+  height: 100%;
+  margin-inline: auto;
+}
+/* Add more classes to define left, right, bottom borders. Use combos for corners */
