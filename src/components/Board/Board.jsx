@@ -25,6 +25,7 @@ const generateInitialBoard = () => {
     .map((row) => row.trim().split(" "));
   return rows;
 };
+
 export default function Board() {
   const initialBoard = generateInitialBoard();
   const [board] = React.useState(initialBoard);
