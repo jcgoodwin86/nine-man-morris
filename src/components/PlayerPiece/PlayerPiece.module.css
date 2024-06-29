@@ -1,0 +1,14 @@
+.playerPiece {
+  border-radius: 50%;
+  border: 0.2em solid black;
+  width: 2em;
+  height: 2em;
+}
+
+.player1 {
+  background-color: #ff0000;
+}
+
+.player2 {
+  background-color: #0000ff;
+}
