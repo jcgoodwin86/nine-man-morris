@@ -1,8 +1,8 @@
 import React from "react";
-import styles from "./Board.module.css";
+import styles from "./Board.module.css"; // Ensure your CSS module is correctly configured
+import GameContext from "../../context/GameContext/GameContext";
 
 const generateInitialBoard = () => {
-  // P - piece, V - vertical, H - horizontal, B - blank
   const template = `
       P H H H H H P H H H H H P
       V B B B B B V B B B B B V
@@ -29,20 +29,47 @@ const generateInitialBoard = () => {
 export default function Board() {
   const initialBoard = generateInitialBoard();
   const [board] = React.useState(initialBoard);
+  const { playerTurn, nextPlayerTurn } = React.useContext(GameContext);
+  const { addPlayerPiece, getPlayerPieceEle, findPlayerPiece } =
+    React.useContext(GameContext);
 
-  const boardElement = board.map((row) => {
+  const handleCellClick = (rowIndex, cellIndex) => {
+    // Ensure the cell clicked is a "P"
+    if (board[rowIndex][cellIndex] === "P") {
+      addPlayerPiece(playerTurn, rowIndex, cellIndex);
+      nextPlayerTurn();
+    }
+  };
+
+  const boardElement = board.map((row, rowIndex) => {
     return row.map((cell, cellIndex) => {
+      const key = `${rowIndex}-${cellIndex}`;
+
+      const isPlayerPiece = findPlayerPiece(rowIndex, cellIndex);
+
+      if (isPlayerPiece) {
+        const [, , player] = isPlayerPiece.split(",");
+        return getPlayerPieceEle(Number(player), key) || <div key={key} />;
+      }
+
       switch (cell) {
         case "H":
-          return <div className={styles.horizontal} key={cellIndex}></div>;
+          return <div className={styles.horizontal} key={key}></div>;
         case "V":
-          return <div className={styles.vertical} key={cellIndex}></div>;
+          return <div className={styles.vertical} key={key}></div>;
         case "P":
-          return <div className={styles.piece} key={cellIndex}></div>;
+          return (
+            <div
+              className={styles.piece}
+              key={key}
+              onClick={() => handleCellClick(rowIndex, cellIndex)}
+            ></div>
+          );
         default:
-          return <div className={styles.cell} key={cellIndex}></div>;
+          return <div className={styles.cell} key={key}></div>;
       }
     });
   });
+
   return <section className={styles.board}>{boardElement}</section>;
 }
