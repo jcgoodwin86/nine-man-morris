@@ -30,8 +30,16 @@ export default function Board() {
   const initialBoard = generateInitialBoard();
   const [board] = React.useState(initialBoard);
   const { playerTurn, nextPlayerTurn } = React.useContext(GameContext);
-  const { addPlayerPiece, getPlayerPieceEle, findPlayerPiece } =
+  const { playerPieces, addPlayerPiece, getPlayerPieceEle, findPlayerPiece } =
     React.useContext(GameContext);
+  const { gamePhases, phase1Check } = React.useContext(GameContext);
+
+  React.useEffect(() => {
+    // Checks if phase1 is completed
+    if (playerPieces.size === 18 && !gamePhases.phase1.completed) {
+      phase1Check(playerPieces);
+    }
+  }, [playerPieces, phase1Check, gamePhases]);
 
   const handleCellClick = (rowIndex, cellIndex) => {
     // Ensure the cell clicked is a "P"
