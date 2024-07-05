@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./Board.module.css"; // Ensure your CSS module is correctly configured
 import GameContext from "../../context/GameContext/GameContext";
+import PlayerContext from "../../context/PlayerContext/PlayerContext";
 
 const generateInitialBoard = () => {
   const template = `
@@ -29,9 +30,9 @@ const generateInitialBoard = () => {
 export default function Board() {
   const initialBoard = generateInitialBoard();
   const [board] = React.useState(initialBoard);
-  const { playerTurn, nextPlayerTurn } = React.useContext(GameContext);
-  const { playerPieces, addPlayerPiece, getPlayerPieceEle, findPlayerPiece } =
-    React.useContext(GameContext);
+  const { playerTurn, nextPlayerTurn } = React.useContext(PlayerContext);
+  const { playerPieces, addPlayerPiece, getPieceEle, findPiece } =
+    React.useContext(PlayerContext);
   const { gamePhases, phase1Check } = React.useContext(GameContext);
 
   React.useEffect(() => {
@@ -53,11 +54,11 @@ export default function Board() {
     return row.map((cell, cellIndex) => {
       const key = `${rowIndex}-${cellIndex}`;
 
-      const isPlayerPiece = findPlayerPiece(rowIndex, cellIndex);
+      const isPlayerPiece = findPiece(rowIndex, cellIndex);
 
       if (isPlayerPiece) {
         const [, , player] = isPlayerPiece.split(",");
-        return getPlayerPieceEle(Number(player), key) || <div key={key} />;
+        return getPieceEle(Number(player), key);
       }
 
       switch (cell) {
