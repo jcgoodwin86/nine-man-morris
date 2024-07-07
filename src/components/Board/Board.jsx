@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./Board.module.css"; // Ensure your CSS module is correctly configured
-import GameContext from "../../context/GameContext/GameContext";
 import PlayerContext from "../../context/PlayerContext/PlayerContext";
+import PhaseContext from "../../context/PhaseContext/PhaseContext";
 
 const generateInitialBoard = () => {
   const template = `
@@ -30,17 +30,22 @@ const generateInitialBoard = () => {
 export default function Board() {
   const initialBoard = generateInitialBoard();
   const [board] = React.useState(initialBoard);
-  const { playerTurn, nextPlayerTurn } = React.useContext(PlayerContext);
-  const { playerPieces, addPlayerPiece, getPieceEle, findPiece } =
-    React.useContext(PlayerContext);
-  const { gamePhases, phase1Check } = React.useContext(GameContext);
+  const {
+    playerTurn,
+    nextPlayerTurn,
+    playerPieces,
+    addPlayerPiece,
+    getPieceEle,
+    findPiece,
+  } = React.useContext(PlayerContext);
+  const { phase1, checkPhaseOne } = React.useContext(PhaseContext);
 
   React.useEffect(() => {
     // Checks if phase1 is completed
-    if (playerPieces.size === 18 && !gamePhases.phase1.completed) {
-      phase1Check(playerPieces);
+    if (playerPieces.size === 18 && !phase1.completed) {
+      checkPhaseOne(playerPieces);
     }
-  }, [playerPieces, phase1Check, gamePhases]);
+  }, [playerPieces, checkPhaseOne, phase1]);
 
   const handleCellClick = (rowIndex, cellIndex) => {
     // Ensure the cell clicked is a "P"
