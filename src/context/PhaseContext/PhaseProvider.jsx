@@ -18,29 +18,20 @@ const PhaseReducer = (state, action) => {
 };
 
 export default function PhaseProvider({ children }) {
-  const [gamePhases, setGamePhases] = React.useState(startingPhases);
   const [state, dispatch] = React.useReducer(PhaseReducer, startingPhases);
 
   const phaseOneCheck = React.useCallback(
     (playerPieces) => {
       const isPhaseOneCompleted = playerPieces.size === 18;
-      setGamePhases((currentPhases) => {
-        const updatedPhases = {
-          ...currentPhases,
-          phase1: { ...currentPhases.phase1, completed: isPhaseOneCompleted },
-        };
-        // Directly dispatch here as we're managing everything within PhaseProvider
-        dispatch({ type: "UPDATE_PHASES", payload: updatedPhases });
-        return updatedPhases;
-      });
+      if (state.phase1.completed !== isPhaseOneCompleted) {
+        dispatch({
+          type: "UPDATE_PHASES",
+          payload: { phase1: { completed: isPhaseOneCompleted } },
+        });
+      }
     },
-    [dispatch],
+    [state.phase1.completed], // only re-create this function if `state.phase1.completed` changes
   );
-
-  // Ensure any external changes to gamePhases update the reducer state
-  React.useEffect(() => {
-    dispatch({ type: "UPDATE_PHASES", payload: gamePhases });
-  }, [gamePhases, dispatch]);
 
   return (
     <PhaseContext.Provider value={{ ...state, checkPhaseOne: phaseOneCheck }}>

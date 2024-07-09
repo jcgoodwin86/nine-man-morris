@@ -2,16 +2,19 @@ import "./App.css";
 import Board from "./components/Board/Board";
 import PlayerProvider from "./context/PlayerContext/PlayerProvider";
 import PhaseProvider from "./context/PhaseContext/PhaseProvider";
+import BoardProvider from "./context/BoardContext/BoardProvider";
 
 function App() {
   return (
     <main>
-      <PlayerProvider>
+      <BoardProvider>
         <PhaseProvider>
-          <h1>Nine Men's Morris</h1>
-          <Board />
+          <PlayerProvider>
+            <h1>Nine Men's Morris</h1>
+            <Board />
+          </PlayerProvider>
         </PhaseProvider>
-      </PlayerProvider>
+      </BoardProvider>
     </main>
   );
 }
