@@ -7,14 +7,14 @@ import BoardProvider from "./context/BoardContext/BoardProvider";
 function App() {
   return (
     <main>
-      <BoardProvider>
-        <PhaseProvider>
-          <PlayerProvider>
+      <PhaseProvider>
+        <PlayerProvider>
+          <BoardProvider>
             <h1>Nine Men's Morris</h1>
             <Board />
-          </PlayerProvider>
-        </PhaseProvider>
-      </BoardProvider>
+          </BoardProvider>
+        </PlayerProvider>
+      </PhaseProvider>
     </main>
   );
 }
