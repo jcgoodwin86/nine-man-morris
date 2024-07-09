@@ -1,11 +1,11 @@
 import React from "react";
 import PlayerPiece from "../components/PlayerPiece/PlayerPiece";
 
-export default function usePlayerPieces() {
-  const [playerPieces, setPlayerPieces] = React.useState(new Set());
+export default function usePieces() {
+  const [pieces, setPieces] = React.useState(new Set());
 
-  function addPlayerPiece(playerTurn, rowIndex, cellIndex) {
-    setPlayerPieces((prevPieces) => {
+  function addPiece(playerTurn, rowIndex, cellIndex) {
+    setPieces((prevPieces) => {
       const newPiece = `${rowIndex},${cellIndex},${playerTurn}`;
       const updatedPieces = new Set(prevPieces);
 
@@ -18,7 +18,7 @@ export default function usePlayerPieces() {
     });
   }
 
-  function getPlayerPieceEle(player, key) {
+  function getPieceEle(player, key) {
     if (player === 1) {
       return <PlayerPiece player="player-one" key={key} />;
     } else if (player === 2) {
@@ -26,8 +26,8 @@ export default function usePlayerPieces() {
     }
   }
 
-  function findPlayerPiece(rowIndex, cellIndex) {
-    const hasPiece = Array.from(playerPieces).find((piece) => {
+  function findPiece(rowIndex, cellIndex) {
+    const hasPiece = Array.from(pieces).find((piece) => {
       const [pieceRow, pieceCol] = piece.split(",").map(Number);
       return pieceRow === rowIndex && pieceCol === cellIndex;
     });
@@ -35,5 +35,5 @@ export default function usePlayerPieces() {
     return hasPiece;
   }
 
-  return { playerPieces, addPlayerPiece, getPlayerPieceEle, findPlayerPiece };
+  return { pieces, addPiece, getPieceEle, findPiece };
 }
