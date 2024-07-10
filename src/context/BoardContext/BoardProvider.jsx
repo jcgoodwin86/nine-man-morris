@@ -5,10 +5,23 @@ import PlayerContext from "../PlayerContext/PlayerContext";
 import generateInitialBoard from "../../utils/boardGenerator";
 
 export default function BoardProvider({ children }) {
-  const { addPlayerPiece, playerTurn, nextPlayerTurn, getPieceEle, findPiece } =
-    React.useContext(PlayerContext);
+  const {
+    addPlayerPiece,
+    playerTurn,
+    nextPlayerTurn,
+    getPieceEle,
+    findPiece,
+    removePlayerPiece,
+  } = React.useContext(PlayerContext);
 
   const [gameBoard] = React.useState(generateInitialBoard);
+
+  const handlePieceClick = React.useCallback(
+    (pieceAtCell) => {
+      removePlayerPiece(pieceAtCell);
+    },
+    [removePlayerPiece],
+  );
 
   const handleCellClick = React.useCallback(
     (rowIndex, cellIndex) => {
@@ -23,8 +36,9 @@ export default function BoardProvider({ children }) {
   const value = {
     gameBoard,
     handleCellClick,
-    getPieceEle,
+    getPieceEle: (pieceAtCell) => getPieceEle(pieceAtCell, handlePieceClick),
     findPiece,
+    handlePieceClick,
   };
 
   return (
