@@ -9,11 +9,10 @@ export default function Board() {
   const boardElement = gameBoard?.map((row, rowIndex) =>
     row.map((cell, cellIndex) => {
       const key = `${rowIndex}-${cellIndex}`;
-      const isPlayerPiece = findPiece(rowIndex, cellIndex);
+      const pieceAtCell = findPiece(rowIndex, cellIndex);
 
-      if (isPlayerPiece) {
-        const [, , player] = isPlayerPiece.split(",");
-        return getPieceEle(Number(player), key);
+      if (pieceAtCell) {
+        return getPieceEle(pieceAtCell);
       }
 
       switch (cell) {
