@@ -1,9 +1,15 @@
 import clsx from "clsx";
 import styles from "./PlayerPiece.module.css";
-export default function PlayerPiece({ player, handlePieceClick, pieceAtCell }) {
+export default function PlayerPiece({
+  player,
+  handlePieceClick,
+  pieceAtCell,
+  highlight,
+}) {
   const pieceStyles = clsx(styles.playerPiece, {
     [styles.player1]: player === "player-one",
     [styles.player2]: player === "player-two",
+    [styles.highlight]: highlight,
   });
 
   return (

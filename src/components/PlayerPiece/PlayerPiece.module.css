@@ -1,12 +1,17 @@
 .playerPiece {
-  border-radius: 50%;
-  border: 0.2em solid black;
+    border-radius: 50%;
+    border: 0.2em solid black;
 }
 
 .player1 {
-  background-color: #ff0000;
+    background-color: #ff0000;
 }
 
 .player2 {
-  background-color: #0000ff;
+    background-color: #0000ff;
+}
+
+.highlight {
+    /* border-color: greenyellow; */
+    border: 5px solid yellow;
 }
