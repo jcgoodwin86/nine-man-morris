@@ -18,6 +18,13 @@ const playerReducer = (state, action) => {
       updatedPieces.delete(action.pieceAtCell);
       return { ...state, playerPieces: updatedPieces };
     }
+    case "MOVE_PIECE": {
+      const { from, to } = action;
+      const updatedPieces = new Set(state.playerPieces);
+      updatedPieces.delete(from);
+      updatedPieces.add(to);
+      return { ...state, playerPieces: updatedPieces };
+    }
     default:
       return state;
   }
@@ -40,7 +47,9 @@ export default function PlayerProvider({ children }) {
   };
 
   // Exported actions for components to dispatch
-  const nextPlayerTurn = () => dispatch({ type: "NEXT_TURN" });
+  const nextPlayerTurn = () => {
+    dispatch({ type: "NEXT_TURN" });
+  };
 
   const addPlayerPiece = (playerTurn, rowIndex, cellIndex) => {
     addPiece(playerTurn, rowIndex, cellIndex);
@@ -50,7 +59,12 @@ export default function PlayerProvider({ children }) {
     dispatch({ type: "REMOVE_PIECE", pieceAtCell });
   };
 
-  const getPieceEle = (pieceAtCell, handlePieceClick) => {
+  const movePlayerPiece = (from, to) => {
+    dispatch({ type: "MOVE_PIECE", from, to });
+    nextPlayerTurn();
+  };
+
+  const getPieceEle = (pieceAtCell, handlePieceClick, currentPiece) => {
     const [, , player] = pieceAtCell.split(",");
     return (
       <PlayerPiece
@@ -58,6 +72,7 @@ export default function PlayerProvider({ children }) {
         key={pieceAtCell}
         handlePieceClick={handlePieceClick}
         pieceAtCell={pieceAtCell}
+        highlight={currentPiece === pieceAtCell}
       />
     );
   };
@@ -84,7 +99,7 @@ export default function PlayerProvider({ children }) {
         addPlayerPiece,
         getPieceEle,
         findPiece,
-        removePlayerPiece,
+        movePlayerPiece,
       }}
     >
       {children}
