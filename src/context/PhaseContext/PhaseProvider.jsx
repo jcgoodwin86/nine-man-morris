@@ -1,3 +1,4 @@
+// Manages the phases of the game, checking for phase completions and transitions.
 import React from "react";
 import PhaseContext from "./PhaseContext";
 
